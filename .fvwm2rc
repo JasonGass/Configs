@@ -1,0 +1,86 @@
+#####fvwm from scratch 08/06/16 JJG########
+
+###Virtual Desktop
+DesktopSize 3x3
+
+#How far does it scroll?  100 100 is 1 page 0 0 is no scroll
+EdgeScroll 0 0
+
+#How hard it is to move... I have this disabled so commented out
+#EdgeResistance 150 150
+
+#How close to edge you need to be to scroll.  I set to 0 for no scroll
+EdgeThickness 0
+
+#Time in milliseconds before click counts as a hold
+ClickTime 350
+
+#How many pixels to move before counting as a move
+MoveThreshold 3
+
+#SloppyFocus - Window with mouse has focus. 
+Style * SloppyFocus, MouseFocusClickRaises
+
+#Leaves space for other taskbars
+#EwmhBaseStruts 62 162 0 48
+
+#Ignores numlock
+#IgnoreModifiers L25
+
+#####
+#
+# DestroyFunc FuncName
+# AddToFunc   FuncName
+# + I (Action to happen immediately)
+# + C (Action to happen on a mouse 'click)
+# + D (Action to happen on a mouse 'double click')
+# + H (Action to happen on a mouse 'hold')
+# + M (Action to happen on a mouse 'motion')
+#
+#####
+
+DestroyFunc ClickTitle
+AddToFunc    ClickTitle
++ I Raise
++ C Nop
++ D Maximize $0 $1
++ H Nop
++ M Move
+
+DestroyFunc ClickIcon
+AddToFunc    ClickIcon
++ I Nop
++ C Iconify
++ D Iconfiy
++ H Nop
++ M Move
+
+
+# The other root menu, invoked by the middle mouse button, gives me a chance
+# to do any window operation on a window of my choice. (The cursor changes to
+# an appropriate shape as I go searching for the window that will be affected.)
+AddToMenu Window-Ops "Window Operations" Title
++ "Move" Move
++ "Resize" Resize
++ "Raise" Raise
++ "Lower" Lower
++ "Iconify/DeIconify" Iconify
++ "Stick/UnStick" Stick
++ "Maximize/Normalize" Maximize
++ "Refresh" RefreshWindow
++ "" Nop
++ "Delete" Delete
++ "Close" Close
++ "Destroy" Destroy
+
+#Handle left clicking on window titlebar
+Mouse 1 T A ClickTitle 100 100
+
+#Window Titlebar Buttons 13579  08642
+Mouse 1 1 A Menu Window-Ops Nop
+Mouse 1 6 A Iconify
+Mouse 1 2 A Delete
+Mouse 1 4 A Maximize 100 100
+
+#Handle left clicking on icon
+Mouse 1 I A ClickIcon
